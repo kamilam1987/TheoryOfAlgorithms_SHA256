@@ -10,6 +10,13 @@
 
 void sha256();
 
+// Secton 4.1.2 Functions
+uint32_t sig0(uint32_t x);
+uint32_t sig1(uint32_t x);
+
+// Section 3.2 for definitions
+uint32_t rotr(uint32_t n, uint32_t x);
+uint32_t shr(uint32_t n, uint32_t x);
 // Main method
 int main(int argc, char *argv[]){
 	sha256();
@@ -25,4 +32,44 @@ void sha256(){
 	uint32_t H[8];
 	// Two temporary variables
 	uint32_t T1, T2;
+	// The Hash value 
+	uint32_t H[8] = {
+		//The values from section 5.3.3 in hex
+		  0x6a09e667
+		, 0xbb67ae85
+		, 0x3c6ef372
+		, 0xa54ff53a
+		, 0x510e527f
+		, 0x9b05688c
+		, 0x1f83d9ab
+		, 0x5be0cd19
+	};
+
+	// The current message block.
+	uint32_t M[16];
+	// From page 22, W[t]=m[t] for 0<=t <=15
+	int t;
+
+	// Loops through first 16 elements of W
+	for(t = 0; t < 16; t++)
+		W[t] = M[t];
+
+	// From page 22, W[t] = ...
+	for(t = 16; t < 64; t++)
+		sig1(W[t-2]) + W[t-7] + sig0(W[t-15]) + W[t-16];
+	
+}
+
+uint32_t rotr(uint32_t n, uint32_t x){
+	return (x >> n) | (x << (32 - n));
+}
+uint32_t shr(uint32_t n, uint32_t x){
+	return (x >> n);
+}
+uint32_t sig0(uint32_t x){
+	return (rotr(7, x) ^ rotr(18, x) ^ shr(3, x));
+}
+
+uint32_t sig1(uint32_t x){
+	return (rotr(17, x) ^ rotr(19, x) ^ shr(10, x)); 
 }
