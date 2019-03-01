@@ -8,12 +8,15 @@
 
 #### 14.02.2019 Developed a program called “bit” which contains a bit operator that are used in secure hash algorithm[5]. Follow this link to find out more information’s about bitwise operators in c [6].
 
+#### 28.02.2019 Following the video[7] that was recorded by our lecturer, I was able to develop the first part of the sha256 algorithm. Program  includes five functions. First which is sha256 calculates the sha256 bit algorithm but currently doesn’t return anything. Sig0 and sig1 functions are defined in hash standard which takes a single 32-bit integer as input and returns 32-bit integer as output. Functions rotr and shr takes two 32-bit integer arguments and returns 32-bit integer (n – amount of rotations).  Definitions for those function can be found under section 3.2 and 4.1.2 in Secure Hash Standards. 
+
 ### References:
 [1] https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf</br>
 [2] https://www.youtube.com/watch?v=S5wI1s4Kaf4</br>
 [3] https://www.youtube.com/watch?v=mbekM2ErHfM<br>
 [4] https://web.microsoftstream.com/video/e5e7f5d8-3d2f-4115-9eaa-d9b1d6a91c4e</br>
 [5] https://web.microsoftstream.com/video/c24ff5f4-e5e1-4747-af8d-c2c4892856e3?referrer=https:%2F%2Flearnonline.gmit.ie%2Fcourse%2Fview.php%3Fid%3D138 </br>
-[6] https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/
+[6] https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/</br>
+[7] https://web.microsoftstream.com/video/db7c03be-5902-4575-9629-34d176ff1366</br>
 
 
