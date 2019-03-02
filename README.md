@@ -10,6 +10,8 @@
 
 #### 28.02.2019 Following the video[7] that was recorded by our lecturer, I was able to develop the first part of the sha256 algorithm. Program  includes five functions. First which is sha256 calculates the sha256 bit algorithm but currently doesn’t return anything. Sig0 and sig1 functions are defined in hash standard which takes a single 32-bit integer as input and returns 32-bit integer as output. Functions rotr and shr takes two 32-bit integer arguments and returns 32-bit integer (n – amount of rotations).  Definitions for those function can be found under section 3.2 and 4.1.2 in Secure Hash Standards. 
 
+#### 02.03.2019 Declared K which contains sixty-four constants 32-bit words. Those words represent the first thirty-two bits of the fractional parts of the cube roots of the first sixty-four primes numbers.  All elements of M were initialized to 0. Next step will be to calculate a message block. 
+
 ### References:
 [1] https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf</br>
 [2] https://www.youtube.com/watch?v=S5wI1s4Kaf4</br>
