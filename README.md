@@ -14,6 +14,8 @@
 
 #### 08.03.2019 The next step was to create a program for preprocessing. It is described in the fifth section of the Secure Hash Standard and is divided into three parts. The first is padding the message which says that the message must be a multiple of 512 bits in length. This function is implemented in my “padfile” program[8] which also opens and read files. Padding can be inserted before the beginning of the process. It can contain the padding. 
 
+#### 16.03.2019 This week I continued on padding message. Message is multiple of 512 bits in length. Chops the message up into 512 bits blocks and deal with each block in turn, as goes through the message. Generating new hash values as going through and once deals with the last message block, whatever the hash value is at that point this is the final hash value. Also converted big endian to little endian[9] for both 32- and 64-bit words.
+
 ### References:
 [1] https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf</br>
 [2] https://www.youtube.com/watch?v=S5wI1s4Kaf4</br>
@@ -22,6 +24,7 @@
 [5] https://web.microsoftstream.com/video/c24ff5f4-e5e1-4747-af8d-c2c4892856e3?referrer=https:%2F%2Flearnonline.gmit.ie%2Fcourse%2Fview.php%3Fid%3D138 </br>
 [6] https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/</br>
 [7] https://web.microsoftstream.com/video/db7c03be-5902-4575-9629-34d176ff1366</br>
-[8] https://web.microsoftstream.com/video/9daaf80b-9c4c-4fdc-9ef6-159e0e4ccc13
+[8] https://web.microsoftstream.com/video/9daaf80b-9c4c-4fdc-9ef6-159e0e4ccc13</br>
+[9] https://stackoverflow.com/questions/2182002/convert-big-endian-to-little-endian-in-c-without-using-provided-func</br>
 
 
