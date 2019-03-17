@@ -11,8 +11,22 @@ union msgblock {
 	uint64_t s[8];
 };
 
+
 //Staus for padding the message(tracks how the file is reading).
 enum status {READ, PAD0, PAD1, FINISH};
+
+uint32_t t( uint32_t val )
+{
+	val = ((val << 8) & 0xFF00FF00 ) | ((val >> 8) & 0xFF00FF ); 
+	return (val << 16) | (val >> 16);
+}
+
+uint64_t s( uint64_t val )
+{
+	val = ((val << 8) & 0xFF00FF00FF00FF00ULL ) | ((val >> 8) & 0x00FF00FF00FF00FFULL );
+	val = ((val << 16) & 0xFFFF0000FFFF0000ULL ) | ((val >> 16) & 0x0000FFFF0000FFFFULL );
+	return (val << 32) | (val >> 32);
+}
 
 int main(int argc, char *argv[]) {
 
@@ -46,6 +60,7 @@ int main(int argc, char *argv[]) {
 		//Outputs 64 bits integer using llu-unsigned long long int
 		nobytes = fread(M.e, 1, 64, fptr);
 		printf("Read %2llu bytes\n", nobytes);
+
 		// Previos number of bytes plus current number of bytes multiply by 8.
 		nobits = nobits + (nobytes * 8);
 		// 64 -(8+1)
