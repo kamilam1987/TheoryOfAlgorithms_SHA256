@@ -13,6 +13,8 @@ union msgblock {
 
 
 //Staus for padding the message(tracks how the file is reading).
+//PAD0- able to put 1 into the second last message block
+//PAD1- message was 64 bytes
 enum status {READ, PAD0, PAD1, FINISH};
 
 uint32_t t( uint32_t val )
