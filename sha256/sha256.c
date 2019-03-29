@@ -9,6 +9,18 @@
 #include <stdint.h>
 #include<stdlib.h>
 
+// References: https://github.com/B-Con/crypto-algorithms/blob/master/sha256.c
+#define ROTLEFT(a,b) (((a) << (b)) | ((a) >> (32-(b))))
+#define ROTRIGHT(a,b) (((a) >> (b)) | ((a) << (32-(b))))
+
+#define Ch(x,y,z) (((x) & (y)) ^ (~(x) & (z)))
+#define Maj(x,y,z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
+#define EP0(x) (ROTRIGHT(x,2) ^ ROTRIGHT(x,13) ^ ROTRIGHT(x,22))
+#define EP1(x) (ROTRIGHT(x,6) ^ ROTRIGHT(x,11) ^ ROTRIGHT(x,25))
+#define SIG0(x) (ROTRIGHT(x,7) ^ ROTRIGHT(x,18) ^ ((x) >> 3))
+#define SIG1(x) (ROTRIGHT(x,17) ^ ROTRIGHT(x,19) ^ ((x) >> 10))
+
+#define SWAP_UINT32(x) (((x) >> 24) | (((x) & 0x00FF0000) >> 8) | (((x) & 0x0000FF00) << 8) | ((x) << 24))
 //Represents a message block.
 union msgblock {
 	uint8_t e[64];
@@ -20,19 +32,19 @@ union msgblock {
 enum status {READ, PAD0, PAD1, FINISH};
 
 // Secton 4.1.2 Functions.
-uint32_t sig0(uint32_t x);
-uint32_t sig1(uint32_t x);
+//uint32_t sig0(uint32_t x);
+//uint32_t sig1(uint32_t x);
 
 // Section 3.2 for definitions.
-uint32_t rotr(uint32_t n, uint32_t x);
-uint32_t shr(uint32_t n, uint32_t x);
+//uint32_t rotr(uint32_t n, uint32_t x);
+//uint32_t shr(uint32_t n, uint32_t x);
 
 // Definitions section 4.1.2.
-uint32_t SIG0(uint32_t x);
-uint32_t SIG1(uint32_t x);
+//uint32_t SIG0(uint32_t x);
+//uint32_t SIG1(uint32_t x);
 
-uint32_t Ch(uint32_t x, uint32_t y, uint32_t z);
-uint32_t Maj(uint32_t x, uint32_t y, uint32_t z);
+//uint32_t Ch(uint32_t x, uint32_t y, uint32_t z);
+//uint32_t Maj(uint32_t x, uint32_t y, uint32_t z);
 
 // Calculates the SHA256 hash of a file.
 void sha256(FILE *fptr);
@@ -47,7 +59,7 @@ int main(int argc, char *argv[]){
 	FILE* fptr;
 	
 	//Opens a file.
-	fptr = fopen(argv[1], "r");
+	fptr = fopen("test.txt", "r");
 
 	// Test for file nor existing.
 	if (fptr == NULL) {
@@ -125,19 +137,20 @@ void sha256(FILE *fptr){
 
 		// Loops through first 16 elements of W.
 		for(t = 0; t < 16; t++)
-			W[t] = M.t[t];
+			//W[t] = M.t[t];
+			W[t] = SWAP_UINT32(M.t[t]);
 
 		// From page 22, W[t] = ...
 		for(t = 16; t < 64; t++)
-			W[t] = sig1(W[t-2]) + W[t-7] + sig0(W[t-15]) + W[t-16];
+			W[t] = SIG1(W[t-2]) + W[t-7] + SIG0(W[t-15]) + W[t-16];
 		// Initialise a, b, c, d, e, f, g, h as er Step 2 from section 6.2.
 		a = H[0]; b = H[1]; c = H[2]; d = H[3];
-       		e = H[4]; f = H[5]; g = H[6]; h = H[7];	
+       	e = H[4]; f = H[5]; g = H[6]; h = H[7];	
 
 		// Step 3 from secion 6.2.
 		for (t = 0; t < 64; t++){
-			T1 = h + SIG1(e) + Ch(e, f, g) + K[t] + W[t];
-			T2 = SIG0(a) + Maj(a, b, c);
+			T1 = h + EP1(e) + Ch(e, f, g) + K[t] + W[t];
+			T2 = EP0(a) + Maj(a, b, c);
 			h = g;
 			g = f;
 			f = e;
@@ -163,32 +176,6 @@ void sha256(FILE *fptr){
 
 }
 
-uint32_t rotr(uint32_t n, uint32_t x){
-	return (x >> n) | (x << (32 - n));
-}
-uint32_t shr(uint32_t n, uint32_t x){
-	return (x >> n);
-}
-uint32_t sig0(uint32_t x){
-	return (rotr(7, x) ^ rotr(18, x) ^ shr(3, x));
-}
-
-uint32_t sig1(uint32_t x){
-	return (rotr(17, x) ^ rotr(19, x) ^ shr(10, x)); 
-}
-uint32_t SIG0(uint32_t x){
-	return (rotr(2, x) ^ rotr(13, x) ^ rotr(22, x));
-}
-uint32_t SIG1(uint32_t x){
-	return (rotr(6, x) ^ rotr(11, x) ^ rotr(25, x));
-}
-
-uint32_t Ch(uint32_t x, uint32_t y, uint32_t z){
-	return ((x & y) ^ ((!x) & z));
-}
-uint32_t Maj(uint32_t x, uint32_t y, uint32_t z){
-	return ((x & y) ^ (x & z) ^ (y & z));
-}
 int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits) {
 
 	// Current number of bytes(0-64) that file reads.
