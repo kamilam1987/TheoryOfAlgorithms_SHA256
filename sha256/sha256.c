@@ -29,7 +29,6 @@ union msgblock {
 	uint64_t s[8];
 };
 
-
 // A flag for where where are in reading the file.
 enum status {READ, PAD0, PAD1, FINISH};
 
@@ -65,6 +64,9 @@ uint64_t SWAPE64( uint64_t x )
 // Calculates the SHA256 hash of a file.
 void sha256(FILE *fptr);
 
+// Reads file content
+void fileContent();
+
 // Retrives the next message block.
 int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits);
 
@@ -75,7 +77,6 @@ int main(int argc, char *argv[]){
 	FILE* fptr;
 	char* fName;
 	fName = argv[1];
-	char fContents;
 	
 	//Opens a file.
 	fptr = fopen(fName, "r");
@@ -84,15 +85,19 @@ int main(int argc, char *argv[]){
 	
 	// Test for file nor existing.
 	if (fptr == NULL) {
-		printf("Error! Could not open file %s\n", fName);
-		exit(1);
+		/* Unable to open file hence exit */
+        printf("Unable to open file.\n");
+        printf("Please check whether file exists and you have read privilege.\n");
+        exit(EXIT_FAILURE);
 	}
-	// Runs the secure hash algorithm on the file.
-	sha256(fptr);
-		
+	else {
+		printf("File opened successfully. Reading file contents character by character... \n");
+		// Runs the secure hash algorithm on the file.
+		sha256(fptr);
+		fileContent(fptr);
+	}
 	// Close the file.
 	fclose(fptr);
-
 	return 0;
 }
 
@@ -154,6 +159,7 @@ void sha256(FILE *fptr){
 	//uint32_t M[16] = {0,0,0,0,0,0,0,0};
 	// From page 22, W[t]=m[t] for 0<=t <=15.
 	int i, t;
+	char ch;
 
 	while (nextmsgblock(fptr, &M, &S, &nobits)) {
 
@@ -193,10 +199,35 @@ void sha256(FILE *fptr){
 		H[6] = g + H[6];
 		H[7] = h + H[7];
 	}
+ 
 	printf("\n\t\t\t HASH\n");
 	printf("\t\t\t******\n ");
-	printf("%08x%08x%08x%08x%08x%08x%08x%08x\n", H[0],H[1],H[2],H[3],H[4],H[5],H[6],H[7]);
+	printf("%08x%08x%08x%08x%08x%08x%08x%08x", H[0],H[1],H[2],H[3],H[4],H[5],H[6],H[7]);
 
+}
+
+void fileContent(FILE *fptr){
+	
+	char c;
+	// Test for file nor existing.
+	if (fptr == NULL) {
+		/* Unable to open file hence exit */
+        printf("Unable to open file.\n");
+        printf("Please check whether file exists and you have read privilege.\n");
+        exit(EXIT_FAILURE);
+	}
+	// Read contents from file 
+	/* File open success message */
+   // Read contents from file 
+    c = fgetc(fptr); 
+    while (c != EOF) 
+    { 
+        printf ("%c", c); 
+        c = fgetc(fptr); 
+    } 
+  
+    fclose(fptr); 
+	return;
 }
 
 int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits) {
