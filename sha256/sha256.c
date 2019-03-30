@@ -20,7 +20,8 @@
 #define SIG0(x) (ROTRIGHT(x,7) ^ ROTRIGHT(x,18) ^ ((x) >> 3))
 #define SIG1(x) (ROTRIGHT(x,17) ^ ROTRIGHT(x,19) ^ ((x) >> 10))
 
-#define SWAP_UINT32(x) (((x) >> 24) | (((x) & 0x00FF0000) >> 8) | (((x) & 0x0000FF00) << 8) | ((x) << 24))
+#define IS_BIGE (*(uint16_t *)"\0\xff" < 0x100)
+
 //Represents a message block.
 union msgblock {
 	uint8_t e[64];
@@ -28,8 +29,23 @@ union msgblock {
 	uint64_t s[8];
 };
 
+
 // A flag for where where are in reading the file.
 enum status {READ, PAD0, PAD1, FINISH};
+
+// References: https://stackoverflow.com/questions/2182002/convert-big-endian-to-little-endian-in-c-without-using-provided-func?rq=1
+uint32_t SWAPE32( uint32_t x )
+{
+	x = ((x << 8) & 0xFF00FF00 ) | ((x >> 8) & 0xFF00FF ); 
+	return (x << 16) | (x >> 16);
+}
+
+uint64_t SWAPE64( uint64_t x )
+{
+	x = ((x << 8) & 0xFF00FF00FF00FF00ULL ) | ((x >> 8) & 0x00FF00FF00FF00FFULL );
+	x = ((x << 16) & 0xFFFF0000FFFF0000ULL ) | ((x >> 16) & 0x0000FFFF0000FFFFULL );
+	return (x << 32) | (x >> 32);
+}
 
 // Secton 4.1.2 Functions.
 //uint32_t sig0(uint32_t x);
@@ -55,21 +71,25 @@ int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits
 // Main method.
 int main(int argc, char *argv[]){
 
-	//Declare a pointer of type file.
+	//Declare a pointer of type file and file name.
 	FILE* fptr;
+	char* fName;
+	fName = argv[1];
+	char fContents;
 	
 	//Opens a file.
-	fptr = fopen("test.txt", "r");
+	fptr = fopen(fName, "r");
 
+	printf("\t\t*** SHA256 HASH ALGORITHM ***\n");
+	
 	// Test for file nor existing.
 	if (fptr == NULL) {
-		printf("Error! Could not open file\n");
+		printf("Error! Could not open file %s\n", fName);
 		exit(1);
 	}
-
 	// Runs the secure hash algorithm on the file.
 	sha256(fptr);
-
+		
 	// Close the file.
 	fclose(fptr);
 
@@ -109,6 +129,8 @@ void sha256(FILE *fptr){
 		0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 
 		0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 	};
+
+	
 	// Message schedule sixty-four 23-bt words.
 	uint32_t W[64];
 	// Working variables (Section 6.2).
@@ -138,7 +160,7 @@ void sha256(FILE *fptr){
 		// Loops through first 16 elements of W.
 		for(t = 0; t < 16; t++)
 			//W[t] = M.t[t];
-			W[t] = SWAP_UINT32(M.t[t]);
+			W[t] = SWAPE32(M.t[t]);
 
 		// From page 22, W[t] = ...
 		for(t = 16; t < 64; t++)
@@ -171,8 +193,9 @@ void sha256(FILE *fptr){
 		H[6] = g + H[6];
 		H[7] = h + H[7];
 	}
-	
-	printf("%08x %08x %08x %08x %08x %08x %08x %08x\n", H[0],H[1],H[2],H[3],H[4],H[5],H[6],H[7]);
+	printf("\n\t\t\t HASH\n");
+	printf("\t\t\t******\n ");
+	printf("%08x%08x%08x%08x%08x%08x%08x%08x\n", H[0],H[1],H[2],H[3],H[4],H[5],H[6],H[7]);
 
 }
 
@@ -194,7 +217,12 @@ int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits
 			// Adds a block of paddings where the first 448 bits are zeros
 			M->e[i] = 0x00;
 		//Puts the 64 bits big endian int representing the number of bits that were in the oginal message.
-		M->s[7] = *nobits;
+		if (IS_BIGE) {
+			M->s[7] = *nobits;
+		}
+		else {
+			M->s[7] = SWAPE64(*nobits);
+		}
 		// Finish
 		*S = FINISH;		
 		
@@ -225,7 +253,12 @@ int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits
 		}
 		// Append the file size in bits as unsigned 64 bits int.
 		// Sets last element to nobits(number of bits in orginal message).
-		M->s[7] = *nobits;
+		if (IS_BIGE) {
+			M->s[7] = *nobits;
+		}
+		else {
+			M->s[7] = SWAPE64(*nobits);
+		}
 		// Sets status to finish	
 		*S = FINISH;
 	//Check if we can put some padding into this message block.

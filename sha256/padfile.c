@@ -11,12 +11,12 @@ union msgblock {
 	uint64_t s[8];
 };
 
-
 //Staus for padding the message(tracks how the file is reading).
 //PAD0- able to put 1 into the second last message block
 //PAD1- message was 64 bytes
 enum status {READ, PAD0, PAD1, FINISH};
 
+// References: https://stackoverflow.com/questions/2182002/convert-big-endian-to-little-endian-in-c-without-using-provided-func?rq=1
 uint32_t t( uint32_t val )
 {
 	val = ((val << 8) & 0xFF00FF00 ) | ((val >> 8) & 0xFF00FF ); 
@@ -30,6 +30,7 @@ uint64_t s( uint64_t val )
 	return (val << 32) | (val >> 32);
 }
 
+// Main function
 int main(int argc, char *argv[]) {
 
 	//Declare instance of message block.
@@ -107,7 +108,7 @@ int main(int argc, char *argv[]) {
 		//Puts the 64 bits big endian int representing the number of bits that were in the oginal message.
 		M.s[7] = nobits;
 	}
-	if (PAD1)
+	if (S == PAD1)
 		M.e[0] = 0x80;
 	// Reads first character from a  file.
 	// printf("%c\n",fread(&c, 1, 1, fptr));
