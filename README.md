@@ -40,12 +40,33 @@ Windows - [MinGW](http://www.mingw.org/)</br>
 
 **29.03** I implemented 64bit and 32bit byte swapping. Then I tested my program with empty sting which was giving correct hash value. Problem was with reading any other text from the file. After additional research it turned out that the important thing is checking if message is big endian and swap it if it’s not.  Last step was to append the file size in bits as an unsigned 64-bit int (big-endian).
 
-**30,31.03** I split sha256 program into multiple files as common practice and continued on README. Today was the last phase of wrapping up the project.
+**30,31.03** I split sha256 program into multiple files as common practice and continued on README. Today was the last phase of wrapping up the project
+
+### Project Testing
+**Test I** on empty sting and checked hash output with [Test vectors](https://www.di-mgt.com.au/sha_testvectors.html) </br>
+<p align="center">
+  <img src="img/empty_sting_test.PNG" alt="Image" width="524" height="150" /></br>
+  <img src="img/hash_empty.PNG" alt="Image" width="1113" height="134" />
+</p>
+
+**Test II** on "hello" sting and checked hash output with [Crack station](https://crackstation.net/) </br>
+<p align="center">
+  <img src="img/hello_test.PNG" alt="Image" width="546" height="167" /></br>
+  <img src="img/hash_hello.PNG" alt="Image" width="1036" height="346" />
+</p>
+
+**Test III** on random text from Wikipedia and checked hash output with [xorbin](https://www.xorbin.com/tools/sha256-hash-calculator)</br> 
+<p align="center">
+ <img src="img/wiki_test.PNG" alt="Image" width="1120" height="237" /></br>
+  <img src="img/hash_wiki.PNG" alt="Image" width="772" height="391" />
+</p>
+
 
 ### Secure Hash Standard
 This standard specifies hash algorithms that can be used to generate digests of messages. They are used to detect if the messages changed. A message digest [10] is a cryptographic hash function containing a string of digits created by a one-way hashing formula. They are designed to protect the integrity of a piece of data or media to detect changes and alterations to any part of a message.  For example, in the image below [11], the right-hand column depicts the message digest for each input:
-
-Picture
+<p align="center">
+    <img src="img/message_digest.png" alt="Image" width="400" height="300" />
+</p>
 
 This Standard specifies secure hash algorithms - SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256 - for computing a condensed representation of electronic data (message). However, in this project I’ll focus only on SHA-256.
 
@@ -69,10 +90,6 @@ To better explain why a SHA-256 is NOT reversible, here's very simple example:
 
 Using SHA-256 on text data of 750,000 characters, we obtain a mere 64 digits digest. Now if I wanted to revert this, how could I possibly determine with exactitude which 750,000 characters were used from just 64 digits?!? This would be the BEST compression algorithm in the world :P
 
-
-
-
-
 ### References:
 [1] https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf</br>
 [2] https://www.youtube.com/watch?v=S5wI1s4Kaf4</br>
@@ -86,5 +103,10 @@ Using SHA-256 on text data of 750,000 characters, we obtain a mere 64 digits dig
 [10] https://www.techopedia.com/definition/4024/message-digest</br>
 [11] https://en.wikipedia.org/wiki/Cryptographic_hash_function</br>
 [12] https://www.freeformatter.com/sha256-generator.html
+
+### Testing:
+https://www.di-mgt.com.au/sha_testvectors.html</br>
+https://crackstation.net</br>
+https://www.xorbin.com/tools/sha256-hash-calculator</br>
 
 
