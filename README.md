@@ -1,14 +1,14 @@
 # TheoryOfAlgorithms_SHA256
 
 ## Table of Contents  
-[1. Project Description](#description)
-[2. Setup/Install](#setup)
-[3. Project Diary](#diary)
-[4. Testing](#testing)
-[5. Secure Hash Standard](#standard)
-[6. About SHA-256](#sha256)
-[7. References](#references)
-[8. Testing References](#testingref)
+[1. Project Description](#description)</br>
+[2. Setup/Install](#setup)</br>
+[3. Project Diary](#diary)</br>
+[4. Testing](#testing)</br>
+[5. Secure Hash Standard](#standard)</br>
+[6. About SHA-256](#sha256)</br>
+[7. References](#references)</br>
+[8. Testing References](#testingref)</br>
  
 <a name="description"/>
 
