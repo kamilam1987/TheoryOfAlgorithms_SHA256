@@ -65,7 +65,7 @@ uint64_t SWAPE64( uint64_t x )
 void sha256(FILE *fptr);
 
 // Reads file content
-void fileContent();
+void fileContent(FILE *fc);
 
 // Retrives the next message block.
 int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits);
@@ -77,7 +77,9 @@ int main(int argc, char *argv[]){
 	FILE* fptr;
 	char* fName;
 	fName = argv[1];
+	char c;
 	
+	FILE *fc = fopen(argv[1], "r");
 	//Opens a file.
 	fptr = fopen(fName, "r");
 
@@ -92,9 +94,18 @@ int main(int argc, char *argv[]){
 	}
 	else {
 		printf("File opened successfully. Reading file contents character by character... \n");
+		printf("\n\t\t\t FILE CONTENT\n");
+		printf("\t\t\t**************\n ");
+		// Runs the file content.
+		//fileContent(fprint);
+		c = fgetc(fc); 
+    	while (c != EOF) 
+    	{ 
+			printf ("%c", c); 
+			c = fgetc(fc); 
+    	} 
 		// Runs the secure hash algorithm on the file.
 		sha256(fptr);
-		fileContent(fptr);
 	}
 	// Close the file.
 	fclose(fptr);
@@ -200,36 +211,11 @@ void sha256(FILE *fptr){
 		H[7] = h + H[7];
 	}
  
-	printf("\n\t\t\t HASH\n");
-	printf("\t\t\t******\n ");
-	printf("%08x%08x%08x%08x%08x%08x%08x%08x", H[0],H[1],H[2],H[3],H[4],H[5],H[6],H[7]);
+	printf("\n\t\t\t HASH OUTPUT\n");
+	printf("\t\t\t*************\n ");
+	printf("%08x%08x%08x%08x%08x%08x%08x%08x\n\n", H[0],H[1],H[2],H[3],H[4],H[5],H[6],H[7]);
 
 }
-
-void fileContent(FILE *fptr){
-	
-	char c;
-	// Test for file nor existing.
-	if (fptr == NULL) {
-		/* Unable to open file hence exit */
-        printf("Unable to open file.\n");
-        printf("Please check whether file exists and you have read privilege.\n");
-        exit(EXIT_FAILURE);
-	}
-	// Read contents from file 
-	/* File open success message */
-   // Read contents from file 
-    c = fgetc(fptr); 
-    while (c != EOF) 
-    { 
-        printf ("%c", c); 
-        c = fgetc(fptr); 
-    } 
-  
-    fclose(fptr); 
-	return;
-}
-
 int nextmsgblock(FILE *fptr, union msgblock *M, enum status *S, uint64_t *nobits) {
 
 	// Current number of bytes(0-64) that file reads.
