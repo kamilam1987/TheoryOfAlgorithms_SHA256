@@ -1,23 +1,16 @@
 # TheoryOfAlgorithms_SHA256
 
 ## Table of Contents  
-[1. Project Description](#description)</br>
-[2. Setup/Install](#setup)</br>
-[3. Project Diary](#diary)</br>
-[4. Testing](#testing)</br>
-[5. Secure Hash Standard](#standard)</br>
-[6. About SHA-256](#sha256)</br>
-[7. References](#references)</br>
-[8. Testing References](#testingref)</br>
+[1. Project Description](#description)
+[2. Setup/Install](#setup)
+[3. Project Diary](#diary)
+[4. Testing](#testing)
+[5. Secure Hash Standard](#standard)
+[6. About SHA-256](#sha256)
+[7. References](#references)
+[8. Testing References](#testingref)
  
 <a name="description"/>
-<a name="setup"/>
-<a name="diary"/>
-<a name="testing"/>
-<a name="standard"/>
-<a name="sha256"/>
-<a name="references"/>
-<a name="testingref"/>
 
 ## Project Description
 The goal of this project was to write a program in C language to perform the 256-bit version of Secure Hash Algorithm (SHA) algorithm.  To complete this project, I have read the Secure Hash Standard and I have followed its guidelines which are available under this [link](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf). Also, I watched the additional tutorials to help me understand how SHA256 algorithm works. Program was developed using google cloud virtual machine, however, I tested and debug it in visual studio code. To test the algorithm, it was necessary to create a text file. First tested file contained empty string then random strings such as "hello" or "abc". To covert plain text to sha256 hash I used online Generator such as: [SHA256 Hash Generator](https://passwordsgenerator.net/sha256-hash-generator) and [crack station](https://crackstation.net).
@@ -29,6 +22,8 @@ The goal of this project was to write a program in C language to perform the 256
 *	sha256 folder: Contains files which are responsible for calculating the hash values.
 *	project.pdf: Includes project requirements.
 
+<a name="setup"/>
+
 ## Setup/Install
 **Step 1. Install compiler for your operating system.**</br>
 Windows - [MinGW](http://www.mingw.org/)</br>
@@ -38,6 +33,8 @@ Windows - [MinGW](http://www.mingw.org/)</br>
 ```gcc main.c SHA_256.c -o main ```</br>
 **Step 4. Run the code**<br>
 ```./main <filename> ```</br>
+
+<a name="diary"/>
 
 ## Project Diary
 
@@ -61,6 +58,8 @@ Windows - [MinGW](http://www.mingw.org/)</br>
 
 **30,31.03** I split sha256 program into multiple files as common practice and continued on README. Today was the last phase of wrapping up the project
 
+<a name="testing"/>
+
 ## Project Testing
 **Test I** on empty string and checked hash output with [Test vectors](https://www.di-mgt.com.au/sha_testvectors.html) </br>
 <p align="center">
@@ -81,6 +80,8 @@ Windows - [MinGW](http://www.mingw.org/)</br>
 </p>
 
 
+<a name="standard"/>
+
 ## Secure Hash Standard
 This standard specifies hash algorithms that can be used to generate digests of messages. They are used to detect if the messages changed. A message digest [10] is a cryptographic hash function containing a string of digits created by a one-way hashing formula. They are designed to protect the integrity of a piece of data or media to detect changes and alterations to any part of a message.  For example, in the image below [11], the right-hand column depicts the message digest for each input:
 <p align="center">
@@ -88,6 +89,8 @@ This standard specifies hash algorithms that can be used to generate digests of 
 </p>
 
 This Standard specifies secure hash algorithms - SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256 - for computing a condensed representation of electronic data (message). However, in this project I’ll focus only on SHA-256.
+
+<a name="sha256"/>
 
 ## About SHA-256
 **What is SHA-256?**
@@ -109,6 +112,8 @@ To better explain why a SHA-256 is NOT reversible, here's very simple example:
 
 Using SHA-256 on text data of 750,000 characters, we obtain a mere 64 digits digest. Now if I wanted to revert this, how could I possibly determine with exactitude which 750,000 characters were used from just 64 digits?!? This would be the BEST compression algorithm in the world :P
 
+<a name="references"/>
+
 ## References
 [1] https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf</br>
 [2] https://www.youtube.com/watch?v=S5wI1s4Kaf4</br>
@@ -122,6 +127,8 @@ Using SHA-256 on text data of 750,000 characters, we obtain a mere 64 digits dig
 [10] https://www.techopedia.com/definition/4024/message-digest</br>
 [11] https://en.wikipedia.org/wiki/Cryptographic_hash_function</br>
 [12] https://www.freeformatter.com/sha256-generator.html
+
+<a name="testingref"/>
 
 ## Testing References
 https://www.di-mgt.com.au/sha_testvectors.html</br>
