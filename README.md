@@ -1,6 +1,25 @@
 # TheoryOfAlgorithms_SHA256
 
-### Project Description
+## Table of Contents  
+[1. Project Description](#description)</br>
+[2. Setup/Install](#setup)</br>
+[3. Project Diary](#diary)</br>
+[4. Testing](#testing)</br>
+[5. Secure Hash Standard](#standard)</br>
+[6. About SHA-256](#sha256)</br>
+[7. References](#references)</br>
+[8. Testing References](#testingref)</br>
+ 
+<a name="description"/>
+<a name="setup"/>
+<a name="diary"/>
+<a name="testing"/>
+<a name="standard"/>
+<a name="sha256"/>
+<a name="references"/>
+<a name="testingref"/>
+
+## Project Description
 The goal of this project was to write a program in C language to perform the 256-bit version of Secure Hash Algorithm (SHA) algorithm.  To complete this project, I have read the Secure Hash Standard and I have followed its guidelines which are available under this [link](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf). Also, I watched the additional tutorials to help me understand how SHA256 algorithm works. Program was developed using google cloud virtual machine, however, I tested and debug it in visual studio code. To test the algorithm, it was necessary to create a text file. First tested file contained empty string then random strings such as "hello" or "abc". To covert plain text to sha256 hash I used online Generator such as: [SHA256 Hash Generator](https://passwordsgenerator.net/sha256-hash-generator) and [crack station](https://crackstation.net).
 
 **This repo contains files:**
@@ -10,7 +29,7 @@ The goal of this project was to write a program in C language to perform the 256
 *	sha256 folder: Contains files which are responsible for calculating the hash values.
 *	project.pdf: Includes project requirements.
 
-### Setup/Install
+## Setup/Install
 **Step 1. Install compiler for your operating system.**</br>
 Windows - [MinGW](http://www.mingw.org/)</br>
 **Step 2. Clone Repo**</br>
@@ -20,7 +39,7 @@ Windows - [MinGW](http://www.mingw.org/)</br>
 **Step 4. Run the code**<br>
 ```./main <filename> ```</br>
 
-### Project Diary:
+## Project Diary
 
 **30.01.2019** The first step regarding the project was to read the document under the title "SECURE HASH STANDARD" which is available under the [link](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf). Then I decided to watch additional videos that helped me to understand more exactly what is SHA_256 [2], [3].
 
@@ -42,8 +61,8 @@ Windows - [MinGW](http://www.mingw.org/)</br>
 
 **30,31.03** I split sha256 program into multiple files as common practice and continued on README. Today was the last phase of wrapping up the project
 
-### Project Testing
-**Test I** on empty sting and checked hash output with [Test vectors](https://www.di-mgt.com.au/sha_testvectors.html) </br>
+## Project Testing
+**Test I** on empty string and checked hash output with [Test vectors](https://www.di-mgt.com.au/sha_testvectors.html) </br>
 <p align="center">
   <img src="img/empty_sting_test.PNG" alt="Image" width="524" height="150" /></br>
   <img src="img/hash_empty.PNG" alt="Image" width="1113" height="134" />
@@ -62,7 +81,7 @@ Windows - [MinGW](http://www.mingw.org/)</br>
 </p>
 
 
-### Secure Hash Standard
+## Secure Hash Standard
 This standard specifies hash algorithms that can be used to generate digests of messages. They are used to detect if the messages changed. A message digest [10] is a cryptographic hash function containing a string of digits created by a one-way hashing formula. They are designed to protect the integrity of a piece of data or media to detect changes and alterations to any part of a message.  For example, in the image below [11], the right-hand column depicts the message digest for each input:
 <p align="center">
     <img src="img/message_digest.png" alt="Image" width="400" height="300" />
@@ -70,7 +89,7 @@ This standard specifies hash algorithms that can be used to generate digests of 
 
 This Standard specifies secure hash algorithms - SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256 - for computing a condensed representation of electronic data (message). However, in this project I’ll focus only on SHA-256.
 
-### About SHA-256
+## About SHA-256
 **What is SHA-256?**
 SHA-256 [12] is a message-digest algorithm. It's used to compute a hash value in cryptography. Hash function takes a block of data and returns a fixed-size bit string (hash value). The data used by hash functions is referred to as a "message", while the computed hash value is referred to as the "message digest".
 
@@ -90,7 +109,7 @@ To better explain why a SHA-256 is NOT reversible, here's very simple example:
 
 Using SHA-256 on text data of 750,000 characters, we obtain a mere 64 digits digest. Now if I wanted to revert this, how could I possibly determine with exactitude which 750,000 characters were used from just 64 digits?!? This would be the BEST compression algorithm in the world :P
 
-### References:
+## References
 [1] https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf</br>
 [2] https://www.youtube.com/watch?v=S5wI1s4Kaf4</br>
 [3] https://www.youtube.com/watch?v=mbekM2ErHfM<br>
@@ -104,7 +123,7 @@ Using SHA-256 on text data of 750,000 characters, we obtain a mere 64 digits dig
 [11] https://en.wikipedia.org/wiki/Cryptographic_hash_function</br>
 [12] https://www.freeformatter.com/sha256-generator.html
 
-### Testing:
+## Testing References
 https://www.di-mgt.com.au/sha_testvectors.html</br>
 https://crackstation.net</br>
 https://www.xorbin.com/tools/sha256-hash-calculator</br>
